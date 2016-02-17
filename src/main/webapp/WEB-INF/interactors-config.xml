@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Configuration for the Interactors-Core components -->
+    <bean id="interactorsDB" class="org.reactome.server.tools.interactors.database.InteractorsDatabase">
+        <constructor-arg name="fileName" value="${interactors.static.db}"/>
+    </bean>
+
+    <bean id="interactionParserService" class="org.reactome.server.tools.interactors.service.InteractionParserService">
+        <constructor-arg name="database" ref="interactorsDB"/>
+    </bean>
+    <bean id="interactionResourceService" class="org.reactome.server.tools.interactors.service.InteractionResourceService">
+        <constructor-arg name="database" ref="interactorsDB"/>
+    </bean>
+    <bean id="interactionService" class="org.reactome.server.tools.interactors.service.InteractionService">
+        <constructor-arg name="database" ref="interactorsDB"/>
+    </bean>
+    <bean id="interactorResourceService" class="org.reactome.server.tools.interactors.service.InteractorResourceService">
+        <constructor-arg name="database" ref="interactorsDB"/>
+    </bean>
+    <bean id="interactorService" class="org.reactome.server.tools.interactors.service.InteractorService">
+        <constructor-arg name="database" ref="interactorsDB"/>
+    </bean>
+
+    <bean id="psicquicService" class="org.reactome.server.tools.interactors.service.PsicquicService"/>
+</beans>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dba" class="org.gk.persistence.MySQLAdaptor">
+        <constructor-arg index="0" value="${database.host}"/>
+        <constructor-arg index="1" value="${database.name}"/>
+        <constructor-arg index="2" value="${database.user}"/>
+        <constructor-arg index="3" value="${database.pwd}"/>
+        <constructor-arg index="4" value="${database.port}"/>
+        <!-- useCache should be set to false for gk_central deployed in the curator machine
+             so that any change in an instance can be seen without restarting tomcat. Otherwise,
+             it should be set to true for performance reason. -->
+        <property name="useCache">
+            <value>${database.cache}</value>
+        </property>
+    </bean>
+
+    <bean id="queryHelper" class="org.reactome.core.controller.QueryHelper">
+    </bean>
+
+    <bean id="postMapperFactory" class="org.reactome.core.controller.ReactomeModelPostMapperFactory">
+        <property name="configuration" value="ReactomePostMapperConfiguration.xml"/>
+    </bean>
+
+    <bean id="converter" class="org.reactome.core.controller.GKInstance2ModelObject">
+        <property name="postMapperFactory" ref="postMapperFactory"/>
+    </bean>
+
+    <bean id="helper" class="org.reactome.core.controller.DatabaseObjectHelper">
+        <property name="converter" ref="converter"/>
+        <property name="outputdir" value="${restful-tmp}"/>
+    </bean>
+
+    <bean id="diagramConverter" class="org.reactome.server.diagram.converter.tools.DiagramConverter">
+        <constructor-arg index="0" ref="dba"/>
+        <constructor-arg index="1" ref="converter"/>
+        <constructor-arg index="2" value="${trivial.molecules}"/>
+    </bean>
+</beans>

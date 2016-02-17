@@ -61,11 +61,18 @@
             <version>1.2</version>
         </dependency>
 
+        <!-- Diagram core -->
+        <dependency>
+            <groupId>org.reactome.server.tools</groupId>
+            <artifactId>diagram-core</artifactId>
+            <version>1.4.2-SNAPSHOT</version>
+        </dependency>
+
         <!-- Interactors Core -->
         <dependency>
             <groupId>org.reactome.server.tools</groupId>
             <artifactId>interactor-core</artifactId>
-            <version>0.0.8-SNAPSHOT</version>
+            <version>0.0.9-SNAPSHOT</version>
         </dependency>
 
         <!-- Jackson JSON Processor -->
