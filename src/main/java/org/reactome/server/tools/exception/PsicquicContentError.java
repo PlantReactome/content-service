@@ -5,9 +5,9 @@ import org.springframework.http.HttpStatus;
 /**
  * @author Antonio Fabregat <fabregat@ebi.ac.uk>
  */
-public class PsicquicContentException extends ContentServiceException {
+public class PsicquicContentError extends ContentServiceException {
 
-    public PsicquicContentException(Throwable t) {
+    public PsicquicContentError(Throwable t) {
         super(HttpStatus.INTERNAL_SERVER_ERROR, "Exception while querying PSICQUIC: " + t.getMessage());
     }
 }

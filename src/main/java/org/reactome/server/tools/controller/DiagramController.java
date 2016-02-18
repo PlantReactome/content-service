@@ -3,10 +3,13 @@ package org.reactome.server.tools.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.reactome.server.diagram.converter.exception.DiagramNotFoundException;
+import org.reactome.server.diagram.converter.exception.MissingStableIdentifierException;
 import org.reactome.server.diagram.converter.graph.output.Graph;
 import org.reactome.server.diagram.converter.layout.output.Diagram;
 import org.reactome.server.diagram.converter.tools.DiagramConverter;
-import org.reactome.server.tools.exception.DiagramNotFoundException;
+import org.reactome.server.tools.exception.DiagramMissingStableIdentifiers;
+import org.reactome.server.tools.exception.DiagramNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +30,10 @@ public class DiagramController {
     public Diagram getDiagramLayout(@ApiParam(value="Pathway identifier [StId or DbId]",required = true) @PathVariable String id)  {
         try {
             return diagramConverter.getDiagram(id);
-        } catch (Exception e) {
-            throw new DiagramNotFoundException(id);
+        } catch (DiagramNotFoundException diagramNotFound) {
+            throw new DiagramNotFound(id);
+        } catch (MissingStableIdentifierException e) {
+            throw new DiagramMissingStableIdentifiers(e.getMessage());
         }
     }
 
@@ -39,7 +44,7 @@ public class DiagramController {
         try {
             return diagramConverter.getGraph(id);
         } catch (Exception e) {
-            throw new DiagramNotFoundException(id);
+            throw new DiagramNotFound(id);
         }
     }
 }
