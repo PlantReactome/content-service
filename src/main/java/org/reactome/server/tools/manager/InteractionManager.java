@@ -17,7 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Guilherme S Viteri <gviteri@ebi.ac.uk>
@@ -112,7 +115,6 @@ public class InteractionManager {
         return getSummaryInteractionResult(interactionMap, resource);
     }
 
-
     /**
      * Call psicquic REST service and retrieve all Resources.
      */
@@ -122,26 +124,27 @@ public class InteractionManager {
              * TEMPORARY SOLUTION: Remove service with issues.
              *      Theses services are active but throwing exception. We decided to remove them from the list:
              *      MatrixDB, I2D, Spike
+             *
+             * These services have errors in the SOAP services, now we are querying REST
              */
-            List<PsicquicResource> registries = psicquicService.getResources();
+            //List<PsicquicResource> registries = psicquicService.getResources();
 
-            Iterator<PsicquicResource> iterator = registries.iterator();
-            while (iterator.hasNext()) {
-                PsicquicResource registry = iterator.next();
+//            Iterator<PsicquicResource> iterator = registries.iterator();
+//            while (iterator.hasNext()) {
+//                PsicquicResource registry = iterator.next();
+//
+//                if (registry.getName().equalsIgnoreCase("MatrixDB") //||
+//                        //registry.getName().equalsIgnoreCase("I2D") ||
+//                        //registry.getName().equalsIgnoreCase("Spike")
+//                        ){
+//                    iterator.remove();
+//                }
+//            }
 
-                if (registry.getName().equalsIgnoreCase("MatrixDB") ||
-                        registry.getName().equalsIgnoreCase("I2D") ||
-                        registry.getName().equalsIgnoreCase("Spike")) {
-                    iterator.remove();
-                }
-            }
-
-            return registries;
+            return psicquicService.getResources();
         } catch (PsicquicInteractionClusterException e) {
             throw new PsicquicContentError(e);
         }
-
-
     }
 
     /**
@@ -183,16 +186,29 @@ public class InteractionManager {
                 /** Set Id as auto increment **/
                 interactor.setId(count++);
 
-                /** Set CLUSTER as the others Interactions identifiers **/
+                /** This list holds evidences that we are going to use to build the evidences URL. **/
+                List<String> evidencesWithDbNames = new ArrayList<>();
+
+                /** Set Evidences as the others Interactions identifiers **/
                 for (InteractionDetails interactionDetail : interaction.getInteractionDetailsList()) {
-                    interactor.addEvidence(interactionDetail.getInteractionAc());
+                    String evidence = interactionDetail.getInteractionAc();
+                    evidencesWithDbNames.add(evidence);
+
+                    /** If evidence has # so the client has different cross databases in its interactions **/
+                    if (evidence.contains("#")) {
+                        String[] evidences = evidence.split("#");
+                        evidence = evidences[0];
+                        //evidences[1] is the dbSource, we only need to build the url properly.
+                    }
+
+                    interactor.addEvidence(evidence);
                 }
 
                 /** Accession URL **/
                 interactor.setAccURL(Toolbox.getAccessionURL(interaction.getInteractorB().getAcc(), resource));
 
                 /** Interaction URL **/
-                interactor.setEvidencesURL(Toolbox.getEvidencesURL(interactor.getEvidences(), resource));
+                interactor.setEvidencesURL(Toolbox.getEvidencesURL(evidencesWithDbNames, resource));
 
                 interactorsResultList.add(interactor);
             }
@@ -242,6 +258,4 @@ public class InteractionManager {
         return interactionMapper;
 
     }
-
-
 }
