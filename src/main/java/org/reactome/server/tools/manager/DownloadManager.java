@@ -1,7 +1,7 @@
 package org.reactome.server.tools.manager;
 
 import org.reactome.server.tools.exception.InteractorResourceNotFound;
-import org.reactome.server.tools.exception.PsicquicContentException;
+import org.reactome.server.tools.exception.PsicquicContentError;
 import org.reactome.server.tools.interactors.exception.InvalidInteractionResourceException;
 import org.reactome.server.tools.interactors.exception.PsicquicInteractionClusterException;
 import org.reactome.server.tools.interactors.model.Interaction;
@@ -98,7 +98,7 @@ public class DownloadManager {
             return new FileSystemResource(downloadFile);
 
         } catch (PsicquicInteractionClusterException e) {
-            throw new PsicquicContentException(e);
+            throw new PsicquicContentError(e);
         }
     }
 
