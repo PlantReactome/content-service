@@ -60,7 +60,7 @@ class SearchController {
     @RequestMapping(value = "/facet_query", method = RequestMethod.GET)
     @ResponseBody
     public FacetMapping facet_type(@ApiParam(value = "Search term", defaultValue = "apoptosis", required = true) @RequestParam String query,
-                                   @ApiParam(value = "Species names", defaultValue = "Homo sapiens") @RequestParam(required = false) List<String> species,
+                                   @ApiParam(value = "Species names", defaultValue = "Oryza sativa") @RequestParam(required = false) List<String> species,
                                    @ApiParam(value = "Types to filter", defaultValue = "Reaction, Pathway") @RequestParam(required = false) List<String> types,
                                    @RequestParam(value = "Compartments to filter", required = false) List<String> compartments,
                                    @RequestParam(value = "Reaction types to filter", required = false) List<String> keywords) throws SolrSearcherException {
@@ -73,7 +73,7 @@ class SearchController {
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
     public GroupedResult getResult(@ApiParam(value = "Search term", defaultValue = "apoptosis", required = true) @RequestParam String query,
-                                   @ApiParam(value = "Species names", defaultValue = "Homo sapiens") @RequestParam(required = false) List<String> species,
+                                   @ApiParam(value = "Species names", defaultValue = "Oryza sativa") @RequestParam(required = false) List<String> species,
                                    @ApiParam(value = "Types to filter", defaultValue = "Reaction, Pathway") @RequestParam(required = false) List<String> types,
                                    @RequestParam(value = "Compartments to filter", required = false) List<String> compartments,
                                    @RequestParam(value = "Reaction types to filter", required = false) List<String> keywords,
@@ -92,7 +92,7 @@ class SearchController {
     @RequestMapping(value = "/fireworks", method = RequestMethod.GET)
     @ResponseBody
     public FireworksResult getFireworksResult(@ApiParam(defaultValue = "PTEN", required = true) @RequestParam String query,
-                                              @ApiParam(defaultValue = "Homo sapiens") @RequestParam(required = false) List<String> species,
+                                              @ApiParam(defaultValue = "Oryza sativa") @RequestParam(required = false) List<String> species,
                                               @ApiParam(defaultValue = "Protein") @RequestParam(required = false) List<String> types,
                                               @RequestParam(required = false) Integer start,
                                               @RequestParam(required = false) Integer rows) throws SolrSearcherException {
