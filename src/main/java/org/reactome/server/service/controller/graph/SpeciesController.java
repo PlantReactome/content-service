@@ -28,7 +28,7 @@ public class SpeciesController {
     @Autowired
     SpeciesService speciesService;
 
-    @ApiOperation(value = "The list of main species in Reactome", notes = "This method retrieves the list of main species in Reactome knowledgebase, sorted by name, but having 'Homo sapiens' as the first one. It should be mentioned that for Reactome, main species are considered those have either manually curated or computationally inferred pathways.", response = SimpleDatabaseObject.class, responseContainer = "List", produces = "application/json")
+    @ApiOperation(value = "The list of main species in Reactome", notes = "This method retrieves the list of main species in Reactome knowledgebase, sorted by name, but having 'Oryza sativa' as the first one. It should be mentioned that for Reactome, main species are considered those have either manually curated or computationally inferred pathways.", response = SimpleDatabaseObject.class, responseContainer = "List", produces = "application/json")
     @RequestMapping(value = "/species/main", method = RequestMethod.GET)
     @ResponseBody
     public List<Species> getSpecies() {

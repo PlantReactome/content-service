@@ -63,7 +63,7 @@ public class PathwaysController {
     @ApiOperation(value = "All Reactome top level pathways", notes = "This method retrieves the list of top level pathways for the given species") //, response = Pathway.class, responseContainer = "List")
     @RequestMapping(value = "/pathways/top/{species}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<? extends Pathway> getTopLevelPathways(@ApiParam(value = "Specifies the species by SpeciesName (eg: Homo sapiens) or SpeciesTaxId (eg: 9606)", defaultValue = "9606") @PathVariable String species) {
+    public Collection<? extends Pathway> getTopLevelPathways(@ApiParam(value = "Specifies the species by SpeciesName (eg: Oryza sativa) or SpeciesTaxId (eg: 4530)", defaultValue = "4530") @PathVariable String species) {
         Collection<TopLevelPathway> rtn = topLevelPathwayService.getTopLevelPathways(species);
         if (rtn == null || rtn.isEmpty()) throw new NotFoundException("No TopLevelPathways were found for species: " + species);
         infoLogger.info("Request for toplevelpathways with species: {}", species);
@@ -74,7 +74,7 @@ public class PathwaysController {
     @RequestMapping(value = "/pathways/low/entity/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Collection<SimpleDatabaseObject> getPathwaysFor(@ApiParam(value = "The entity that has to be present in the pathways", defaultValue = "R-HSA-199420") @PathVariable String id,
-                                                           @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "48887") @RequestParam(required = false, defaultValue = "48887") Long speciesId) {
+                                                           @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "186860") @RequestParam(required = false, defaultValue = "186860") Long speciesId) {
         Collection<SimpleDatabaseObject> rtn = pathwaysService.getPathwaysFor(id, speciesId);
         if (rtn == null || rtn.isEmpty()) throw new NotFoundException("No result for " + id + " in " + speciesId);
         infoLogger.info("Request for all lower level pathways of entry with id: {}", id);
@@ -85,7 +85,7 @@ public class PathwaysController {
     @RequestMapping(value = "/pathways/low/entity/{id}/allForms", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Collection<SimpleDatabaseObject> getPathwaysForAllFormsOf(@ApiParam(value = "The entity (in any of its forms) that has to be present in the pathways", defaultValue = "R-HSA-199420") @PathVariable String id,
-                                                                     @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "48887") @RequestParam(required = false, defaultValue = "48887") Long speciesId) {
+                                                                     @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "186860") @RequestParam(required = false, defaultValue = "186860") Long speciesId) {
         Collection<SimpleDatabaseObject> rtn = pathwaysService.getPathwaysForAllFormsOf(id, speciesId);
         if (rtn == null || rtn.isEmpty()) throw new NotFoundException("No result for " + id + " in " + speciesId);
         infoLogger.info("Request for all lower level pathways of entry with id: {}", id);
@@ -96,7 +96,7 @@ public class PathwaysController {
     @RequestMapping(value = "/pathways/low/diagram/entity/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Collection<SimpleDatabaseObject> getPathwaysWithDiagramFor(@ApiParam(value = "The entity that has to be present in the pathways", defaultValue = "R-HSA-199420") @PathVariable String id,
-                                                                      @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "48887") @RequestParam(required = false, defaultValue = "48887") Long speciesId) {
+                                                                      @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "186860") @RequestParam(required = false, defaultValue = "186860") Long speciesId) {
         Collection<SimpleDatabaseObject> rtn = pathwaysService.getPathwaysWithDiagramFor(id, speciesId);
         if (rtn == null || rtn.isEmpty()) throw new NotFoundException("No result for " + id + " in " + speciesId);
         infoLogger.info("Request for all lower level pathways (containing diagrams) of entry with id: {}", id);
@@ -107,7 +107,7 @@ public class PathwaysController {
     @RequestMapping(value = "/pathways/low/diagram/entity/{id}/allForms", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Collection<SimpleDatabaseObject> getPathwaysWithDiagramForAllFormsOf(@ApiParam(value = "The entity (in any of its forms) that has to be present in the pathways", defaultValue = "R-HSA-199420") @PathVariable String id,
-                                                                                @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "48887") @RequestParam(required = false, defaultValue = "48887") Long speciesId) {
+                                                                                @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "186860") @RequestParam(required = false, defaultValue = "186860") Long speciesId) {
         Collection<SimpleDatabaseObject> rtn = pathwaysService.getPathwaysWithDiagramForAllFormsOf(id, speciesId);
         if (rtn == null || rtn.isEmpty()) throw new NotFoundException("No result for " + id + " in " + speciesId);
         infoLogger.info("Request for all lower level pathways (containing diagrams) of entry with id: {}", id);
@@ -118,7 +118,7 @@ public class PathwaysController {
     @RequestMapping(value = "/pathways/low/diagram/identifier/{identifier}/allForms", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Collection<SimpleDatabaseObject> getLowerLevelPathwaysForIdentifier(@ApiParam(value = "The entity (in any of its forms) that has to be present in the pathways", defaultValue = "PTEN") @PathVariable String identifier,
-                                                                                @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "48887") @RequestParam(required = false, defaultValue = "48887") Long speciesId) {
+                                                                                @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "186860") @RequestParam(required = false, defaultValue = "186860") Long speciesId) {
         Collection<SimpleDatabaseObject> rtn = pathwaysService.getLowerLevelPathwaysForIdentifier(identifier, speciesId);
         if (rtn == null || rtn.isEmpty()) throw new NotFoundException("No result for " + identifier + " in " + speciesId);
         infoLogger.info("Request for all lower level pathways (containing diagrams) of entry with identifier: {}", identifier);
@@ -132,7 +132,7 @@ public class PathwaysController {
     @ApiOperation(value = "All Reactome top level pathways", notes = "This method retrieves a list containing only curated top level pathways for the given species")
     @RequestMapping(value = "/pathways/top/{species}/curated", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<? extends Pathway> getCuratedTopLevelPathways(@ApiParam(value = "Specifies the species by SpeciesName (eg: Homo sapiens) or SpeciesTaxId (eg: 9606)", defaultValue = "9606") @PathVariable String species) {
+    public Collection<? extends Pathway> getCuratedTopLevelPathways(@ApiParam(value = "Specifies the species by SpeciesName (eg: Oryza sativa) or SpeciesTaxId (eg: 4530)", defaultValue = "4530") @PathVariable String species) {
         Collection<TopLevelPathway> topLevelPathways = topLevelPathwayService.getCuratedTopLevelPathways(species);
         if (topLevelPathways == null || topLevelPathways.isEmpty()) throw new NotFoundException("No TopLevelPathways were found for species: " + species);
         infoLogger.info("Request for curated toplevelpathways with species: {}", species);

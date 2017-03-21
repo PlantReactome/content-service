@@ -33,7 +33,7 @@ public class SchemaController {
     @RequestMapping(value = "/schema/{className}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Collection<DatabaseObject> getDatabaseObjectsForClassName(@ApiParam(value = "Schema class name", defaultValue = "Pathway",required = true) @PathVariable String className,
-                                                                     @ApiParam(value = "Allowed species filter: SpeciesName (eg: Homo sapiens) SpeciesTaxId (eg: 9606)", defaultValue = "9606") @RequestParam(required = false) String species,
+                                                                     @ApiParam(value = "Allowed species filter: SpeciesName (eg: Oryza sativa) SpeciesTaxId (eg: 4530)", defaultValue = "4530") @RequestParam(required = false) String species,
                                                                      @ApiParam(value = "Page to be returned", defaultValue = "1", required = true)  @RequestParam Integer page,
                                                                      @ApiParam(value = "Number of rows returned. Maximum = 25", defaultValue = "25", required = true) @RequestParam Integer offset) throws ClassNotFoundException {
         if (offset > 25) offset = 25;
@@ -52,7 +52,7 @@ public class SchemaController {
     @RequestMapping(value = "/schema/{className}/min", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Collection<SimpleDatabaseObject> getSimpleDatabaseObjectByClassName(@ApiParam(value = "Schema class name", defaultValue = "Pathway",required = true) @PathVariable String className,
-                                                                               @ApiParam(value = "Allowed species filter: SpeciesName (eg: Homo sapiens) SpeciesTaxId (eg: 9606)", defaultValue = "9606") @RequestParam(required = false) String species,
+                                                                               @ApiParam(value = "Allowed species filter: SpeciesName (eg: Oryza sativa) SpeciesTaxId (eg: 4530)", defaultValue = "4530") @RequestParam(required = false) String species,
                                                                                @ApiParam(value = "Page to be returned", defaultValue = "1", required = true)  @RequestParam Integer page,
                                                                                @ApiParam(value = "Number of rows returned. Maximum = 20000", defaultValue = "20000", required = true) @RequestParam Integer offset) throws ClassNotFoundException {
         if (offset > 20000) offset = 20000;
@@ -84,7 +84,7 @@ public class SchemaController {
     @RequestMapping(value = "/schema/{className}/count", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Long countEntries(@ApiParam(value = "Schema class name", defaultValue = "Pathway",required = true) @PathVariable String className,
-                             @ApiParam(value = "Allowed species filter: SpeciesName (eg: Homo sapiens) SpeciesTaxId (eg: 9606)", defaultValue = "9606") @RequestParam(required = false) String species) throws ClassNotFoundException {
+                             @ApiParam(value = "Allowed species filter: SpeciesName (eg: Oryza sativa) SpeciesTaxId (eg: 4530)", defaultValue = "4530") @RequestParam(required = false) String species) throws ClassNotFoundException {
         infoLogger.info("Request for counf of objects of class: {}", className , species);
         if (species == null) {
             return schemaService.countEntries(className);
