@@ -40,9 +40,10 @@
         <deploymentPath>/</deploymentPath>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <graph.core>1.0.1</graph.core>
+        <graph.core>1.0.3</graph.core>
         <search.core>1.0.0</search.core>
         <interactors.core>1.0.7</interactors.core>
+        <diagram.exporter>1.0.0</diagram.exporter>
         <spring.version>4.2.4.RELEASE</spring.version>
         <servlet.version>4.0.0-b01</servlet.version>
         <jsp.version>2.1</jsp.version>
@@ -50,9 +51,8 @@
         <jackson.version>2.7.3</jackson.version>
         <swagger.version>2.4.0</swagger.version>
         <lang.version>3.4</lang.version>
-        <mail.version>1.5.4</mail.version>
+        <mail.version>1.5.6</mail.version>
         <activation.version>1.1.1</activation.version>
-        <logging.version>1.1.7</logging.version>
 
         <tomcat.version>2.2</tomcat.version>
         <maven.compiler.version>3.5.1</maven.compiler.version>
@@ -165,11 +165,11 @@
             <version>${activation.version}</version>
         </dependency>
 
-        <!--Logging: will trasitively add logback core and slf4j-api-->
+        <!--Logging: will transitively add logback core and slf4j-api-->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logging.version}</version>
+            <version>1.1.10</version>
         </dependency>
 
         <dependency>
@@ -183,6 +183,13 @@
             <groupId>com.esotericsoftware.kryo</groupId>
             <artifactId>kryo</artifactId>
             <version>2.22</version>
+        </dependency>
+
+        <!-- diagram exporter -->
+        <dependency>
+            <groupId>org.reactome.server.tools</groupId>
+            <artifactId>diagram-exporter</artifactId>
+            <version>${diagram.exporter}</version>
         </dependency>
 
     </dependencies>
