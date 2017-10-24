@@ -40,7 +40,7 @@ public class HierarchyController {
             produces = "application/json")
     @RequestMapping(value = "/detail/{id}/getSubGraph", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public PathwayBrowserNode getSubGraph(@ApiParam(value = "DbId or StId of a PhysicalEntity", defaultValue = "R-HSA-109581", required = true) @PathVariable String id)  {
+    public PathwayBrowserNode getSubGraph(@ApiParam(value = "DbId or StId of a PhysicalEntity", defaultValue = "R-OSA-8933718", required = true) @PathVariable String id)  {
         PathwayBrowserNode pathwayBrowserNode = eventHierarchyService.getSubHierarchy(id);
         if (pathwayBrowserNode == null) throw new NotFoundException("No sub graph found for given id: " + id);
         infoLogger.info("Request for subgraph of Entry id: {}", id);
@@ -54,7 +54,7 @@ public class HierarchyController {
             produces = "application/json")
     @RequestMapping(value = "/detail/{id}/getReverseGraph", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public PathwayBrowserNode getReverseSubGraph(@ApiParam(value = "DbId or StId of a PhysicalEntity", defaultValue = "R-HSA-199420",required = true) @PathVariable String id,
+    public PathwayBrowserNode getReverseSubGraph(@ApiParam(value = "DbId or StId of a PhysicalEntity", defaultValue = "R-OSA-8933718",required = true) @PathVariable String id,
                                                  @ApiParam(value = "Direct Participants are proteins or molecules, direcly involved in Reactions.", defaultValue = "false") @RequestParam(required = false) Boolean directParticipants,
                                                  @ApiParam(value = "Items like Catalysts or Regulations can not be displayed in the PWB, omit to avoid them in tree.", defaultValue = "true") @RequestParam(required = false) Boolean omitNonDisplayableItems)  {
         PathwayBrowserNode pathwayBrowserNode = eventHierarchyService.getLocationsInPathwayBrowser(id, directParticipants, omitNonDisplayableItems);
@@ -70,7 +70,7 @@ public class HierarchyController {
             produces = "application/json")
     @RequestMapping(value = "/detail/{id}/locationsInPWB", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<PathwayBrowserNode> getPWBGraph(@ApiParam(value = "DbId or StId of a PhysicalEntity", defaultValue = "R-HSA-199420",required = true) @PathVariable String id,
+    public Collection<PathwayBrowserNode> getPWBGraph(@ApiParam(value = "DbId or StId of a PhysicalEntity", defaultValue = "R-OSA-8933718",required = true) @PathVariable String id,
                                                       @ApiParam(value = "Direct Participants are proteins or molecules, direcly involved in Reactions.", defaultValue = "false") @RequestParam(required = false) Boolean directParticipants,
                                                       @ApiParam(value = "Items like Catalysts or Regulations can not be displayed in the PWB, omit to avoid them in tree.", defaultValue = "true") @RequestParam(required = false) Boolean omitNonDisplayableItems)  {
         PathwayBrowserNode pathwayBrowserNode = eventHierarchyService.getLocationsInPathwayBrowser(id, directParticipants, omitNonDisplayableItems);

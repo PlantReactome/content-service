@@ -11,9 +11,9 @@ import org.reactome.server.interactors.tuple.exception.ParserException;
 import org.reactome.server.interactors.tuple.exception.TupleParserException;
 import org.reactome.server.search.exception.SolrSearcherException;
 import org.reactome.server.service.exception.*;
-import org.reactome.server.tools.diagram.exporter.common.profiles.factory.DiagramJsonDeserializationException;
-import org.reactome.server.tools.diagram.exporter.common.profiles.factory.DiagramJsonNotFoundException;
-import org.reactome.server.tools.diagram.exporter.common.profiles.factory.DiagramProfileException;
+//import org.reactome.server.tools.diagram.exporter.common.profiles.factory.DiagramJsonDeserializationException;
+//import org.reactome.server.tools.diagram.exporter.common.profiles.factory.DiagramJsonNotFoundException;
+//import org.reactome.server.tools.diagram.exporter.common.profiles.factory.DiagramProfileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -221,7 +221,7 @@ class GlobalExceptionHandler {
     //================================================================================
     // Diagram Exporter
     //================================================================================
-
+/*
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(DiagramJsonNotFoundException.class)
     @ResponseBody
@@ -245,7 +245,7 @@ class GlobalExceptionHandler {
         logger.warn("DiagramProfileException: " + e.getMessage() + " for request: " + request.getRequestURL());
         return toJsonResponse(HttpStatus.NOT_FOUND, request, e.getMessage());
     }
-
+*/
     //================================================================================
     // Default
     //================================================================================

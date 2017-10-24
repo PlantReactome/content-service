@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.reactome.server.interactors</groupId>
             <artifactId>interactor-core</artifactId>
-            <version>${interactors.core}</version>
+            <version>1.0.6</version>
         </dependency>
         <!--Spring-->
         <dependency>
@@ -186,11 +186,11 @@
         </dependency>
 
         <!-- diagram exporter -->
-        <dependency>
+        <!--dependency>
             <groupId>org.reactome.server.tools</groupId>
             <artifactId>diagram-exporter</artifactId>
             <version>${diagram.exporter}</version>
-        </dependency>
+        </dependency-->
 
     </dependencies>
 

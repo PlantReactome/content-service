@@ -47,7 +47,7 @@ public class PathwaysController {
     })
     @RequestMapping(value = "/pathway/{id}/containedEvents", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<Event> getContainedEvents(@ApiParam(value = "The event for which the contained events are requested", defaultValue = "R-HSA-5673001", required = true) @PathVariable String id) {
+    public Collection<Event> getContainedEvents(@ApiParam(value = "The event for which the contained events are requested", defaultValue = "R-OSA-8933811", required = true) @PathVariable String id) {
         Collection<Event> containedEvents = pathwaysService.getContainedEvents(id);
         if (containedEvents == null || containedEvents.isEmpty()) throw new NotFoundException("No contained events found in the given event: " + id);
         infoLogger.info("Request for contained events of event with id: {}", id);
@@ -61,7 +61,7 @@ public class PathwaysController {
     })
     @RequestMapping(value = "/pathway/{id}/containedEvents/{attributeName}", method = RequestMethod.GET, produces = "text/plain")
     @ResponseBody
-    public String getContainedEvents(@ApiParam(value = "The event for which the contained events are requested", defaultValue = "R-HSA-5673001", required = true) @PathVariable String id,
+    public String getContainedEvents(@ApiParam(value = "The event for which the contained events are requested", defaultValue = "R-OSA-8933811", required = true) @PathVariable String id,
                                                  @ApiParam(value = "Attribute to be filtered", defaultValue = "stId", required = true) @PathVariable String attributeName) throws InvocationTargetException, IllegalAccessException {
         Collection<Event> containedEvents = pathwaysService.getContainedEvents(id);
         if (containedEvents == null || containedEvents.isEmpty()) throw new NotFoundTextPlainException("No contained events found in the given event: " + id);
@@ -90,7 +90,7 @@ public class PathwaysController {
     })
     @RequestMapping(value = "/pathways/low/entity/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<SimpleDatabaseObject> getPathwaysFor(@ApiParam(value = "The entity that has to be present in the pathways", defaultValue = "R-HSA-199420") @PathVariable String id,
+    public Collection<SimpleDatabaseObject> getPathwaysFor(@ApiParam(value = "The entity that has to be present in the pathways", defaultValue = "R-OSA-8933811") @PathVariable String id,
                                                            @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "186860") @RequestParam(required = false, defaultValue = "186860") Long speciesId) {
         Collection<SimpleDatabaseObject> rtn = pathwaysService.getPathwaysFor(id, speciesId);
         if (rtn == null || rtn.isEmpty()) throw new NotFoundException("No result for " + id + " in " + speciesId);
@@ -105,7 +105,7 @@ public class PathwaysController {
     })
     @RequestMapping(value = "/pathways/low/entity/{id}/allForms", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<SimpleDatabaseObject> getPathwaysForAllFormsOf(@ApiParam(value = "The entity (in any of its forms) that has to be present in the pathways", defaultValue = "R-HSA-199420") @PathVariable String id,
+    public Collection<SimpleDatabaseObject> getPathwaysForAllFormsOf(@ApiParam(value = "The entity (in any of its forms) that has to be present in the pathways", defaultValue = "R-OSA-8933811") @PathVariable String id,
                                                                      @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "186860") @RequestParam(required = false, defaultValue = "186860") Long speciesId) {
         Collection<SimpleDatabaseObject> rtn = pathwaysService.getPathwaysForAllFormsOf(id, speciesId);
         if (rtn == null || rtn.isEmpty()) throw new NotFoundException("No result for " + id + " in " + speciesId);
@@ -120,7 +120,7 @@ public class PathwaysController {
     })
     @RequestMapping(value = "/pathways/low/diagram/entity/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<SimpleDatabaseObject> getPathwaysWithDiagramFor(@ApiParam(value = "The entity that has to be present in the pathways", defaultValue = "R-HSA-199420") @PathVariable String id,
+    public Collection<SimpleDatabaseObject> getPathwaysWithDiagramFor(@ApiParam(value = "The entity that has to be present in the pathways", defaultValue = "R-OSA-8933811") @PathVariable String id,
                                                                       @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "186860") @RequestParam(required = false, defaultValue = "186860") Long speciesId) {
         Collection<SimpleDatabaseObject> rtn = pathwaysService.getPathwaysWithDiagramFor(id, speciesId);
         if (rtn == null || rtn.isEmpty()) throw new NotFoundException("No result for " + id + " in " + speciesId);
@@ -135,7 +135,7 @@ public class PathwaysController {
     })
     @RequestMapping(value = "/pathways/low/diagram/entity/{id}/allForms", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<SimpleDatabaseObject> getPathwaysWithDiagramForAllFormsOf(@ApiParam(value = "The entity (in any of its forms) that has to be present in the pathways", defaultValue = "R-HSA-199420") @PathVariable String id,
+    public Collection<SimpleDatabaseObject> getPathwaysWithDiagramForAllFormsOf(@ApiParam(value = "The entity (in any of its forms) that has to be present in the pathways", defaultValue = "R-OSA-8933811") @PathVariable String id,
                                                                                 @ApiParam(value = "The species for which the pathways are requested (SpeciesName or SpeciesTaxId)", defaultValue = "186860") @RequestParam(required = false, defaultValue = "186860") Long speciesId) {
         Collection<SimpleDatabaseObject> rtn = pathwaysService.getPathwaysWithDiagramForAllFormsOf(id, speciesId);
         if (rtn == null || rtn.isEmpty()) throw new NotFoundException("No result for " + id + " in " + speciesId);
@@ -160,11 +160,11 @@ public class PathwaysController {
     @ApiOperation(value = "A list of diagram entities plus pathways from the provided list containing the specified identifier", notes = "This method traverses the content and checks not only for the main identifier but also for all the cross-references to find the flag targets")
     @RequestMapping(value = "/diagram/{pathwayId}/entities/{identifier}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<SimpleDatabaseObject> getEntitiesInDiagramForIdentifier(@ApiParam(value = "The pathway to find items to flag", defaultValue = "R-HSA-446203")
+    public Collection<SimpleDatabaseObject> getEntitiesInDiagramForIdentifier(@ApiParam(value = "The pathway to find items to flag", defaultValue = "R-OSA-8933811")
                                                                              @PathVariable String pathwayId,
                                                                               @ApiParam(value = "The identifier for the elements to be flagged", defaultValue = "CTSA")
                                                                              @PathVariable String identifier,
-                                                                              @ApiParam(value = "Encapsulated pathways to be checked (comma separated list - 20 max)", defaultValue = "R-HSA-199977,R-HSA-4085001")
+                                                                              @ApiParam(value = "Encapsulated pathways to be checked (comma separated list - 20 max)", defaultValue = "R-OSA-8858053,R-OSA-8868949")
                                                                              @RequestParam (required = false) Collection<String> pathways){
 
         if (pathways != null && pathways.size() > 20) pathways = pathways.stream().skip(0).limit(20).collect(Collectors.toSet());

@@ -42,7 +42,7 @@ public class PhysicalEntityController {
     private SchemaService schemaService;
 
     @ApiOperation(value = "All other forms of a PhysicalEntity",
-            notes = "Retrieves a list containing all other forms of the given PhysicalEntity. These other forms are PhysicalEntities that share the same ReferenceEntity identifier, e.g. PTEN H93R[R-HSA-2318524] and PTEN C124R[R-HSA-2317439] are two forms of PTEN.",
+            notes = "Retrieves a list containing all other forms of the given PhysicalEntity. These other forms are PhysicalEntities that share the same ReferenceEntity identifier, e.g. PrA [R-OSA-8933842] and PfrA / PhyA [R-OSA-8933843] are two forms of PfrA.",
             produces = "application/json")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Identifier does not match with any in current data", response = ErrorInfo.class),
@@ -51,7 +51,7 @@ public class PhysicalEntityController {
     })
     @RequestMapping(value = "/entity/{id}/otherForms", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<PhysicalEntity> getOtherFormsOf(@ApiParam(value = "DbId or StId of a PhysicalEntity", defaultValue = "R-HSA-199420", required = true) @PathVariable String id) {
+    public Collection<PhysicalEntity> getOtherFormsOf(@ApiParam(value = "DbId or StId of a PhysicalEntity", defaultValue = "R-OSA-8933842", required = true) @PathVariable String id) {
         Collection<PhysicalEntity> physicalEntities = physicalEntityService.getOtherFormsOf(id);
         if (physicalEntities == null || physicalEntities.isEmpty())
             throw new NotFoundException("Id: " + id + " has not been found in the System");
@@ -67,7 +67,7 @@ public class PhysicalEntityController {
     })
     @RequestMapping(value = "/entity/{id}/componentOf", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<ComponentOf> getComponentsOf(@ApiParam(defaultValue = "R-HSA-199420", required = true) @PathVariable String id) {
+    public Collection<ComponentOf> getComponentsOf(@ApiParam(defaultValue = "R-OSA-8858111", required = true) @PathVariable String id) {
         Collection<ComponentOf> componentOfs = advancedLinkageService.getComponentsOf(id);
         if (componentOfs == null || componentOfs.isEmpty())
             throw new NotFoundException("Id: " + id + " has not been found in the System");
@@ -83,7 +83,7 @@ public class PhysicalEntityController {
     })
     @RequestMapping(value = "/complex/{id}/subunits", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<PhysicalEntity> getComplexSubunits(@ApiParam(defaultValue = "R-HSA-5674003", required = true) @PathVariable String id) {
+    public Collection<PhysicalEntity> getComplexSubunits(@ApiParam(defaultValue = "R-OSA-5608088", required = true) @PathVariable String id) {
         Collection<PhysicalEntity> componentOfs = physicalEntityService.getComplexSubunits(id);
         if (componentOfs == null || componentOfs.isEmpty())
             throw new NotFoundException("Id: " + id + " has not been found in the System");

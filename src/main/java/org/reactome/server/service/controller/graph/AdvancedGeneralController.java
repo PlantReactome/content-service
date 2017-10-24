@@ -42,7 +42,7 @@ public class AdvancedGeneralController {
     @ApiOperation(value = "Retrieves a DatabaseObject", notes = "DatabaseObject will be filled with all properties and direct relationships of specified direction. Direction can be INCOMING, OUTGOING or UNDIRECTED")
     @RequestMapping(value = "/detail/{id}/direction/{direction}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public DatabaseObject findById(@ApiParam(value = "DbId or StId of a DatabaseObject", defaultValue = "R-HSA-199420", required = true) @PathVariable String id,
+    public DatabaseObject findById(@ApiParam(value = "DbId or StId of a DatabaseObject", defaultValue = "R-OSA-8933718", required = true) @PathVariable String id,
                                    @ApiParam(value = "Direction of mapped relationships", defaultValue = "OUTGOING", required = true) @PathVariable RelationshipDirection direction) {
         DatabaseObject databaseObject = advancedDatabaseObjectService.findById(id, direction);
         if (databaseObject == null) throw new NotFoundException("Id: " + id + " has not been found in the System");
@@ -53,7 +53,7 @@ public class AdvancedGeneralController {
     @ApiOperation(value = "Retrieves a DatabaseObject", notes = "DatabaseObject will be filled with all properties and direct relationships of specified direction. Direction can be INCOMING, OUTGOING or UNDIRECTED. Retrieves a single property of the DatabaseObject")
     @RequestMapping(value = "/detail/{id}/direction/{direction}/{attributeName}", method = RequestMethod.GET, produces = "text/plain")
     @ResponseBody
-    public String findById(@ApiParam(value = "DbId or StId of a DatabaseObject", defaultValue = "R-HSA-199420", required = true) @PathVariable String id,
+    public String findById(@ApiParam(value = "DbId or StId of a DatabaseObject", defaultValue = "R-OSA-8933718", required = true) @PathVariable String id,
                            @ApiParam(value = "Direction of mapped relationships", defaultValue = "OUTGOING", required = true) @PathVariable RelationshipDirection direction,
                            @ApiParam(value = "Attribute to be filtered", defaultValue = "displayName", required = true) @PathVariable String attributeName) throws InvocationTargetException, IllegalAccessException {
         DatabaseObject databaseObject = advancedDatabaseObjectService.findById(id, direction);
@@ -65,7 +65,7 @@ public class AdvancedGeneralController {
     @ApiOperation(value = "Retrieves a DatabaseObject", notes = "DatabaseObject will be filled with all properties and direct relationships of specified direction and relationship names. Direction can be INCOMING, OUTGOING or UNDIRECTED")
     @RequestMapping(value = "/detail/{id}/direction/{direction}/relationships/{relationships}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public DatabaseObject findById(@ApiParam(value = "DbId or StId of a DatabaseObject", defaultValue = "R-HSA-109581", required = true) @PathVariable String id,
+    public DatabaseObject findById(@ApiParam(value = "DbId or StId of a DatabaseObject", defaultValue = "R-OSA-8933718", required = true) @PathVariable String id,
                                    @ApiParam(value = "Direction of mapped relationships", defaultValue = "OUTGOING", required = true) @PathVariable RelationshipDirection direction,
                                    @ApiParam(value = "Relationship names that should be mapped", defaultValue = "hasEvent, regulatedBy", required = true) @PathVariable String[] relationships) {
         DatabaseObject databaseObject = advancedDatabaseObjectService.findById(id, direction, relationships);
@@ -77,7 +77,7 @@ public class AdvancedGeneralController {
     @ApiOperation(value = "Retrieves a DatabaseObject", notes = "DatabaseObject will be filled with all properties and direct relationships of specified direction and relationship names. Direction can be INCOMING, OUTGOING or UNDIRECTED")
     @RequestMapping(value = "/detail/{id}/direction/{direction}/relationships/{relationships}/{attributeName}", method = RequestMethod.GET, produces = "text/plain")
     @ResponseBody
-    public String findById(@ApiParam(value = "DbId or StId of a DatabaseObject", defaultValue = "R-HSA-109581", required = true) @PathVariable String id,
+    public String findById(@ApiParam(value = "DbId or StId of a DatabaseObject", defaultValue = "R-OSA-8933718", required = true) @PathVariable String id,
                            @ApiParam(value = "Direction of mapped relationships", defaultValue = "OUTGOING", required = true) @PathVariable RelationshipDirection direction,
                            @ApiParam(value = "Relationship names that should be mapped", defaultValue = "hasEvent, regulatedBy", required = true) @PathVariable String[] relationships,
                            @ApiParam(value = "Attribute to be filtered", defaultValue = "displayName", required = true) @PathVariable String attributeName) throws InvocationTargetException, IllegalAccessException {

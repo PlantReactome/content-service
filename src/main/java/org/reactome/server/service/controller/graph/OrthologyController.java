@@ -41,9 +41,9 @@ public class OrthologyController {
     })
     @RequestMapping(value = "/orthology/{id}/species/{speciesId}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public DatabaseObject getOrthology(@ApiParam(value = "The event for which the orthology is requested", defaultValue = "R-HSA-6799198", required = true)
+    public DatabaseObject getOrthology(@ApiParam(value = "The event for which the orthology is requested", defaultValue = "R-OSA-8933811", required = true)
                                        @PathVariable String id,
-                                       @ApiParam(value = "The species for which the orthology is requested", defaultValue = "49633", required = true)
+                                       @ApiParam(value = "The species for which the orthology is requested", defaultValue = "9230191", required = true)
                                        @PathVariable Long speciesId) {
         DatabaseObject orthology = orthologyService.getOrthology(id, speciesId);
         if (orthology == null) throw new NotFoundException("No orthology found for '" + id + "' in species '" + speciesId + "'");
@@ -59,7 +59,7 @@ public class OrthologyController {
     })
     @RequestMapping(value = "/orthologies/ids/species/{speciesId}", method = RequestMethod.POST, consumes = "text/plain", produces = "application/json")
     @ResponseBody
-    public Map<Object, DatabaseObject> getOrthologies(@ApiParam(value = "The species for which the orthology is requested", defaultValue = "49633", required = true)
+    public Map<Object, DatabaseObject> getOrthologies(@ApiParam(value = "The species for which the orthology is requested", defaultValue = "9230191", required = true)
                                          @PathVariable Long speciesId,
                                          @RequestBody String post) {
         Collection<Object> ids = new ArrayList<>();

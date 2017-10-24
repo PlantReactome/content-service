@@ -47,7 +47,7 @@ public class EventsController {
     })
     @RequestMapping(value = "/event/{id}/ancestors", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<Collection<Pathway>> getEventAncestors(@ApiParam(value = "The event for which the ancestors are requested", defaultValue = "R-HSA-5673001", required = true)
+    public Collection<Collection<Pathway>> getEventAncestors(@ApiParam(value = "The event for which the ancestors are requested", defaultValue = "R-OSA-8858053", required = true)
                                                              @PathVariable String id) {
         Collection<Collection<Pathway>> ancestors = eventsService.getEventAncestors(id);
         if (ancestors == null || ancestors.isEmpty()) throw new NotFoundException("No ancestors found for given event: " + id);
@@ -80,7 +80,7 @@ public class EventsController {
     })
     @RequestMapping(value = "/event/{id}/participants", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<Participant> getParticipants(@ApiParam(value = "DbId or StId of a PhysicalEntity", defaultValue = "5205685",required = true) @PathVariable String id)  {
+    public Collection<Participant> getParticipants(@ApiParam(value = "DbId or StId of a PhysicalEntity", defaultValue = "8858053",required = true) @PathVariable String id)  {
         Collection<Participant> participants = participantService.getParticipants(id);
         if (participants == null || participants.isEmpty())  throw new NotFoundException("No participants found for id: " + id);
         infoLogger.info("Request for participants of event with id: {}", id);
@@ -95,7 +95,7 @@ public class EventsController {
     })
     @RequestMapping(value = "/event/{id}/participatingPhysicalEntities", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<PhysicalEntity> getParticipatingPhysicalEntities(@ApiParam(value = "The event for which the participating PhysicalEntities are requested", defaultValue = "R-HSA-5205685",required = true) @PathVariable String id)  {
+    public Collection<PhysicalEntity> getParticipatingPhysicalEntities(@ApiParam(value = "The event for which the participating PhysicalEntities are requested", defaultValue = "R-OSA-8858053",required = true) @PathVariable String id)  {
         Collection<PhysicalEntity> participants = participantService.getParticipatingPhysicalEntities(id);
         if (participants == null || participants.isEmpty())  throw new NotFoundException("No participants found for id: " + id);
         infoLogger.info("Request for participants of event with id: {}", id);
@@ -110,7 +110,7 @@ public class EventsController {
     })
     @RequestMapping(value = "/event/{id}/participatingReferenceEntities", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public Collection<ReferenceEntity> getParticipatingReferenceEntities(@ApiParam(value = "The event for which the participating ReferenceEntities are requested", defaultValue = "5205685",required = true) @PathVariable String id)  {
+    public Collection<ReferenceEntity> getParticipatingReferenceEntities(@ApiParam(value = "The event for which the participating ReferenceEntities are requested", defaultValue = "8858053",required = true) @PathVariable String id)  {
         Collection<ReferenceEntity> participants = participantService.getParticipatingReferenceEntities(id);
         if (participants == null || participants.isEmpty())  throw new NotFoundException("No participants found for id: " + id);
         infoLogger.info("Request for participants of event with id: {}", id);
