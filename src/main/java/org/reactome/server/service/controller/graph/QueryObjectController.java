@@ -2,10 +2,11 @@ package org.reactome.server.service.controller.graph;
 
 import io.swagger.annotations.*;
 import org.reactome.server.graph.domain.model.DatabaseObject;
+import org.reactome.server.graph.exception.CustomQueryException;
 import org.reactome.server.graph.service.AdvancedDatabaseObjectService;
 import org.reactome.server.graph.service.DatabaseObjectService;
-import org.reactome.server.graph.service.DetailsService;
-import org.reactome.server.graph.service.helper.ContentDetails;
+import org.reactome.server.graph.service.helper.RelationshipDirection;
+import org.reactome.server.graph.service.util.DatabaseObjectUtils;
 import org.reactome.server.service.controller.graph.util.ControllerUtils;
 import org.reactome.server.service.exception.ErrorInfo;
 import org.reactome.server.service.exception.NotFoundException;
@@ -39,9 +40,6 @@ public class QueryObjectController {
     private DatabaseObjectService databaseObjectService;
 
     @Autowired
-    private DetailsService detailsService;
-
-    @Autowired
     private AdvancedDatabaseObjectService advancedDatabaseObjectService;
 
     @ApiOperation(value = "An entry in Reactome knowledgebase", notes = "This method queries for an entry in Reactome knowledgebase based on the given identifier, i.e. stable id or database id. It is worth mentioning that the retrieved database object has all its properties and direct relationships (relationships of depth 1) filled.")
@@ -52,8 +50,9 @@ public class QueryObjectController {
     })
     @RequestMapping(value = "/query/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public DatabaseObject findById(@ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8858053", required = true) @PathVariable String id) {
-        DatabaseObject databaseObject = databaseObjectService.findById(id);
+    public DatabaseObject findById( @ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8858053", required = true)
+                                   @PathVariable String id) {
+        DatabaseObject databaseObject = advancedDatabaseObjectService.findById(id, RelationshipDirection.OUTGOING);
         if (databaseObject == null) throw new NotFoundException("Id: " + id + " has not been found in the System");
         infoLogger.info("Request for DatabaseObject for id: {}", id);
         return databaseObject;
@@ -66,9 +65,11 @@ public class QueryObjectController {
     })
     @RequestMapping(value = "/query/{id}/{attributeName}", method = RequestMethod.GET, produces = "text/plain")
     @ResponseBody
-    public String findById(@ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8858053", required = true) @PathVariable String id,
-                           @ApiParam(value = "Attribute to be filtered", defaultValue = "displayName", required = true) @PathVariable String attributeName) throws InvocationTargetException, IllegalAccessException {
-        DatabaseObject databaseObject = databaseObjectService.findById(id);
+    public String findById( @ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8858053", required = true)
+                           @PathVariable String id,
+                            @ApiParam(value = "Attribute to be filtered", defaultValue = "displayName", required = true)
+                           @PathVariable String attributeName) throws InvocationTargetException, IllegalAccessException {
+        DatabaseObject databaseObject = advancedDatabaseObjectService.findById(id, RelationshipDirection.OUTGOING);
         if (databaseObject == null) throw new NotFoundTextPlainException("Id: " + id + " has not been found in the System");
         infoLogger.info("Request for DatabaseObject for id: {}", id);
         return ControllerUtils.getProperty(databaseObject, attributeName);
@@ -81,13 +82,14 @@ public class QueryObjectController {
     })
     @RequestMapping(value = "/query/ids", method = RequestMethod.POST, produces = "application/json", consumes = "text/plain")
     @ResponseBody //TODO: Swagger is not showing the defaultValue
-    public Collection<DatabaseObject> findByIds(@ApiParam(value = "A comma separated list of identifiers", defaultValue = "R-OSA-8858053, R-OSA-8868949, 8868949", required = true) @RequestBody String post) {
-        Collection<String> ids = new ArrayList<>();
+    public Collection<DatabaseObject> findByIds( @ApiParam(value = "A comma separated list of identifiers", defaultValue = "R-OSA-8858053, R-OSA-8868949, 8868949", required = true)
+                                                @RequestBody String post) {
+        Collection<Object> ids = new ArrayList<>();
         for (String id : post.split(",|;|\\n|\\t")) {
             ids.add(id.trim());
         }
         if (ids.size() > 20) ids = ids.stream().skip(0).limit(20).collect(Collectors.toSet());
-        Collection<DatabaseObject> databaseObjects = databaseObjectService.findByIdsNoRelations(ids);
+        Collection<DatabaseObject> databaseObjects = advancedDatabaseObjectService.findByIds(ids, RelationshipDirection.OUTGOING);
         if (databaseObjects == null || databaseObjects.isEmpty())
             throw new NotFoundException("Ids: " + ids.toString() + " have not been found in the System");
         infoLogger.info("Request for DatabaseObjects for ids: {}", ids);
@@ -97,14 +99,14 @@ public class QueryObjectController {
     @ApiOperation(value = "A list of entries with their mapping to the provided identifiers", notes = "This method queries for a set of entries in Reactome knowledgebase based on the given list of identifiers. The provided list of identifiers can include stable ids, database ids, old stable ids or a mixture of all. It should be underlined that any duplicated ids are eliminated while only requests containing up to 20 ids are processed.<br>This method is particularly useful for users that still rely on the previous version of stable identifiers to query this API. Please note that those are no longer part of the retrieved objects.")
     @RequestMapping(value = "/query/ids/map", method = RequestMethod.POST, produces = "application/json", consumes = "text/plain")
     @ResponseBody //TODO: Swagger is not showing the defaultValue
-    public Map<String, DatabaseObject> findByIdsMap(@ApiParam(value = "A comma separated list of identifiers ", defaultValue = "R-OSA-8858053, R-OSA-8868949, 8868949", required = true)
+    public Map<String, DatabaseObject> findByIdsMap( @ApiParam(value = "A comma separated list of identifiers ", defaultValue = "R-OSA-8858053, R-OSA-8868949, 8868949", required = true)
                                                     @RequestBody String post) {
         Collection<String> ids = new ArrayList<>();
         for (String id : post.split(",|;|\\n|\\t")) ids.add(id.trim());
         if (ids.size() > 20) ids = ids.stream().skip(0).limit(20).collect(Collectors.toSet());
         Map<String, DatabaseObject> map = new HashMap<>();
         for (String id : ids) {
-            DatabaseObject object = databaseObjectService.findById(id);
+            DatabaseObject object = advancedDatabaseObjectService.findById(id, RelationshipDirection.OUTGOING);
             if (object != null) map.put(id, object);
         }
         if (map.isEmpty()) throw new NotFoundException("Ids: " + ids.toString() + " have not been found in the System");
@@ -113,35 +115,35 @@ public class QueryObjectController {
     }
 
     @ApiOperation(value = "More information on an entry in Reactome knowledgebase", notes = "Based on the given identifier, i.e. stable id or database id, this method queries for an entry in Reactome knowledgebase providing more information. In particular, the retrieved database object has all its properties and direct relationships (relationships of depth 1) filled, while it also includes any second level relationships regarding regulations and catalysts.")
-    @RequestMapping(value = "/query/{id}/more", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/query/enhanced/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public DatabaseObject findEnhancedObjectById(@ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8933811", required = true) @PathVariable String id) {
-        DatabaseObject databaseObject = advancedDatabaseObjectService.findEnhancedObjectById(id);
+    public DatabaseObject findEnhancedObjectById( @ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8933811", required = true)
+                                                  @PathVariable String id) {
+        DatabaseObject databaseObject = isEnhancedTarget(id) ?
+                advancedDatabaseObjectService.findEnhancedObjectById(id):
+                advancedDatabaseObjectService.findById(id, RelationshipDirection.OUTGOING);    //similar to findById
         if (databaseObject == null) throw new NotFoundException("Id: " + id + " has not been found in the System");
         infoLogger.info("Request for enhanced DatabaseObject for id: {}", id);
         return databaseObject;
     }
 
-    @ApiOperation(value = "Extended information about an entry in Reactome knowledgebase", notes = "ContentDetails contains: DatabaseObject, componentsOf, other forms of the entry, locationsTree")
-    @RequestMapping(value = "/query/{id}/extended", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public ContentDetails getContentDetail(@ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8933811", required = true) @PathVariable String id,
-                                           @ApiParam(value = "Include direct participants (proteins or molecules directly involved in Reactions)", defaultValue = "false") @RequestParam(required = false) Boolean directParticipants) {
-        ContentDetails contentDetails = detailsService.getContentDetails(id, directParticipants);
-        if (contentDetails == null || contentDetails.getDatabaseObject() == null)
-            throw new NotFoundException("Id: " + id + " has not been found in the System");
-        infoLogger.info("Request for extended DatabaseObject for id: {}", id);
-        return contentDetails;
-    }
-
     //##################### API Ignored but still available for internal purposes #####################//
+
+    @ApiIgnore //Kept for backwards compatibility. It can be removed when logs show no activity under this mapping
+    @ApiOperation(value = "More information on an entry in Reactome knowledgebase", notes = "Based on the given identifier, i.e. stable id or database id, this method queries for an entry in Reactome knowledgebase providing more information. In particular, the retrieved database object has all its properties and direct relationships (relationships of depth 1) filled, while it also includes any second level relationships regarding regulations and catalysts.")
+    @RequestMapping(value = "/query/{id}/more", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public DatabaseObject findMoreObjectById( @ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8933811", required = true)
+                                                 @PathVariable String id) {
+        return findEnhancedObjectById(id);
+    }
 
     @ApiIgnore
     @ApiOperation(value = "Retrieves a DatabaseObject", notes = "DatabaseObject will only be filled with primitive properties but no relationships")
-    @RequestMapping(value = "/query/{id}/less", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/query/abridged/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public DatabaseObject findByIdNoRelations(@ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8933811", required = true) @PathVariable String id) {
-
+    public DatabaseObject findByIdNoRelations( @ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8933811", required = true)
+                                              @PathVariable String id) {
         DatabaseObject databaseObject = databaseObjectService.findByIdNoRelations(id);
         if (databaseObject == null) throw new NotFoundException("Id: " + id + " has not been found in the System");
         infoLogger.info("Request for abridged DatabaseObject for id: {}", id);
@@ -150,14 +152,33 @@ public class QueryObjectController {
 
     @ApiIgnore
     @ApiOperation(value = "Retrieves a DatabaseObject property", notes = "Retrieves a single property from the DatabaseObject. Using this version it is not possible to retrieve any relationships")
-    @RequestMapping(value = "/query/{id}/less/{attributeName}", method = RequestMethod.GET, produces = "text/plain")
+    @RequestMapping(value = "/query/abridged/{id}/{attributeName}", method = RequestMethod.GET, produces = "text/plain")
     @ResponseBody
-    public String findByIdNoRelations(@ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8933811", required = true) @PathVariable String id,
-                                      @ApiParam(value = "Attribute to be filtered", defaultValue = "displayName", required = true) @PathVariable String attributeName) throws InvocationTargetException, IllegalAccessException {
-        DatabaseObject databaseObject = databaseObjectService.findById(id);
+    public String findByIdNoRelations( @ApiParam(value = "DbId or StId of the requested database object", defaultValue = "R-OSA-8933811", required = true)
+                                      @PathVariable String id,
+                                       @ApiParam(value = "Attribute to be filtered", defaultValue = "displayName", required = true)
+                                      @PathVariable String attributeName) throws InvocationTargetException, IllegalAccessException {
+        DatabaseObject databaseObject = databaseObjectService.findByIdNoRelations(id);
         if (databaseObject == null)
             throw new NotFoundTextPlainException("Id: " + id + " has not been found in the System");
         infoLogger.info("Request for abridged DatabaseObject for id: {}", id);
         return ControllerUtils.getProperty(databaseObject, attributeName);
     }
+
+    private boolean isEnhancedTarget(String id){
+        boolean rtn = false;
+        try {
+            if (DatabaseObjectUtils.isStId(id)) {
+                rtn = true;
+            } else {
+                Map<String, Object> parameters = new HashMap<>();
+                String query = "MATCH (n:DatabaseObject{dbId:{id}}) " +
+                               "RETURN NOT ((n:Species) OR (n:Summation) OR (n:Person) OR (n:Compartment))";
+                parameters.put("id", Long.valueOf(id));
+                rtn =  advancedDatabaseObjectService.customBooleanQueryResult(query, parameters);
+            }
+        } catch (CustomQueryException | NullPointerException | NumberFormatException e) { /* Nothing here */ }
+        return rtn;
+    }
+
 }
