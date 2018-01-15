@@ -46,7 +46,7 @@ public class DiagramExportManager {
 
     @Value("${diagram.exporter.temp.folder}")
     private String diagramExporterTempFolder;
-
+/*
     public File getPPTX(String stId, String colorProfile, Decorator decorator, HttpServletResponse response) throws DiagramJsonNotFoundException, DiagramJsonDeserializationException, DiagramProfileException, IOException {
         String pptxFileName = getPPTXFileName(stId);
         String ancestorStId = getAncestorStId(stId);
@@ -84,7 +84,7 @@ public class DiagramExportManager {
             return newFile;
         }
     }
-
+*/
     /**
      * Sometimes a pathway does not have diagram, then we check the first ancestor that has diagram.
      * We generate the powerpoint based on this ancestorStId, but final pptx filename has the stId received in the URL

@@ -83,7 +83,8 @@ public class InteractionManager {
             numberOfThreads = 20;
         }
         // Query PSICQUIC service and retrieve Interactions sorted by score and higher than 0.45
-        Map<String, List<Interaction>> interactionMap = psicquicService.getInteractions(resource, accs, numberOfThreads, cache);
+        //Map<String, List<Interaction>> interactionMap = psicquicService.getInteractions(resource, accs, numberOfThreads, cache);
+        Map<String, List<Interaction>> interactionMap = psicquicService.getInteractions(resource, accs);
         return getDetailInteractionResult(interactionMap, resource);
     }
 

@@ -35,7 +35,7 @@ public class DiagramExporterController {
 
     private static final Logger infoLogger = LoggerFactory.getLogger("infoLogger");
 
-    public static final String PPT_FILE_EXTENSION = ".pptx";
+    //public static final String PPT_FILE_EXTENSION = ".pptx";
     public static final String SBML_FILE_EXTENSION = ".xml";
 
     @Autowired
@@ -45,7 +45,7 @@ public class DiagramExporterController {
     private DatabaseObjectService databaseObjectService;
 
     private DiagramExportManager manager;
-
+/*
     @ApiIgnore
     @ApiOperation(value = "Export given diagram to PowerPoint")
     @ApiResponses({
@@ -88,7 +88,7 @@ public class DiagramExporterController {
             }
         }
     }
-
+*/
     @ApiOperation(value = "Export given Pathway to SBML")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Identifier not found"),

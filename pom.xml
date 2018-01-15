@@ -5,7 +5,7 @@
     <artifactId>content-service</artifactId>
 
     <packaging>war</packaging>
-    <version>0.0.1</version>
+    <version>2.0.0</version>
     <name>content-service</name>
 
     <description>The Reactome Content Service ... </description>
@@ -42,7 +42,8 @@
 
         <graph.core>1.1.2</graph.core>
         <search.core>1.0.0</search.core>
-        <interactors.core>1.0.8</interactors.core>
+        <!--<interactors.core>1.0.8</interactors.core>-->
+        <interactors.core>1.0.9-SNAPSHOT</interactors.core>
         <diagram.exporter>1.1.0</diagram.exporter>
         <sbml-exporter>1.0.0</sbml-exporter>
         <spring.version>4.3.10.RELEASE</spring.version>
@@ -82,7 +83,8 @@
         <dependency>
             <groupId>org.reactome.server.interactors</groupId>
             <artifactId>interactor-core</artifactId>
-            <version>1.0.6</version>
+            <!--<version>1.0.6</version>-->
+            <version>1.0.9-SNAPSHOT</version>
         </dependency>
         <!--Spring-->
         <dependency>
@@ -134,7 +136,12 @@
         <dependency>
             <groupId>org.reactome.server.tools</groupId>
             <artifactId>sbml-exporter</artifactId>
-            <version>${sbml-exporter}</version>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.biojava</groupId>
+            <artifactId>biojava3-ontology</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <!-- Reactome files-storage LRU -->
         <dependency>
@@ -199,11 +206,17 @@
         </dependency>
 
         <!-- diagram exporter -->
-        <!--dependency>
+        <dependency>
             <groupId>org.reactome.server.tools</groupId>
             <artifactId>diagram-exporter</artifactId>
             <version>${diagram.exporter}</version>
-        </dependency-->
+        </dependency>
+
+        <!--<dependency>
+            <groupId>org.biojava</groupId>
+            <artifactId>biojava-core</artifactId>
+            <version>4.2.0</version>
+        </dependency>-->
 
     </dependencies>
 
@@ -295,6 +308,23 @@
     </reporting>
 
     <repositories>
+        <!-- BioJava repo - JP -->
+        <repository>
+            <id>biojava-legacy-repo</id>
+            <name>BioJava's Git based legacy maven repo</name>
+            <url>https://github.com/biojava/maven-repo/tree/master/org/biojava/biojava3-ontology/3.1.0</url>
+        </repository>
+        <!--<repository>
+            <id>biojava-repo</id>
+            <name>The BioJava GitHub repo</name>
+            <url>https://github.com/biojava/maven-repo/tree/master/org/biojava/biojava3-ontology/3.1.0/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>-->
         <!-- EBI repo -->
         <repository>
             <id>nexus-ebi-repo</id>
