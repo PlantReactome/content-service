@@ -8,7 +8,9 @@
     <version>2.0.0</version>
     <name>content-service</name>
 
-    <description>The Reactome Content Service ... </description>
+    <description>
+        The Reactome Content Service provides a series of methods via a RESTFul API to allow programmatic access to Reactome content
+    </description>
     <url>https://github.com/reactome-pwp/content-service</url>
     <organization>
         <name>The European Bioinformatics Institute</name>
@@ -17,15 +19,15 @@
 
     <developers>
         <developer>
-            <id>gviteri</id>
-            <name>Guilherme S Viteri</name>
-            <email>gviteri@ebi.ac.uk</email>
-            <organization>http://www.ebi.ac.uk/</organization>
-        </developer>
-        <developer>
             <id>fabregat</id>
             <name>Antonio Fabregat</name>
             <email>fabregat@ebi.ac.uk</email>
+            <organization>http://www.ebi.ac.uk/</organization>
+        </developer>
+        <developer>
+            <id>gviteri</id>
+            <name>Guilherme S Viteri</name>
+            <email>gviteri@ebi.ac.uk</email>
             <organization>http://www.ebi.ac.uk/</organization>
         </developer>
         <developer>
@@ -40,9 +42,9 @@
         <deploymentPath>/</deploymentPath>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <graph.core>1.1.2</graph.core>
-        <search.core>1.0.0</search.core>
-        <!--<interactors.core>1.0.8</interactors.core>-->
+        <graph.core>1.1.4</graph.core>
+        <search.core>1.0.1</search.core>
+        <!--<interactors.core>1.0.10</interactors.core>-->
         <interactors.core>1.0.9-SNAPSHOT</interactors.core>
         <diagram.exporter>1.1.0</diagram.exporter>
         <sbml-exporter>1.0.0</sbml-exporter>
@@ -50,14 +52,18 @@
         <servlet.version>4.0.0-b01</servlet.version>
         <jsp.version>2.1</jsp.version>
         <jstl.version>1.2</jstl.version>
-        <jackson.version>2.7.3</jackson.version>
-        <swagger.version>2.4.0</swagger.version>
-        <lang.version>3.4</lang.version>
-        <mail.version>1.5.6</mail.version>
+        <jackson.version>2.8.9</jackson.version>
+        <swagger.version>2.7.0</swagger.version>
+        <lang.version>3.6</lang.version>
+        <mail.version>1.6.0</mail.version>
         <activation.version>1.1.1</activation.version>
+        <kryo.version>2.22</kryo.version>
+        <tika.version>1.12</tika.version>
+        <reactome.utils.version>1.0.5</reactome.utils.version>
 
         <tomcat.version>2.2</tomcat.version>
         <maven.compiler.version>3.5.1</maven.compiler.version>
+        <maven.resources.version>3.0.1</maven.resources.version>
         <jdk.version>1.8</jdk.version>
         <maven.site.version>3.4</maven.site.version>
         <jackrabbit.version>2.10</jackrabbit.version>
@@ -83,13 +89,18 @@
         <dependency>
             <groupId>org.reactome.server.interactors</groupId>
             <artifactId>interactor-core</artifactId>
-            <!--<version>1.0.6</version>-->
-            <version>1.0.9-SNAPSHOT</version>
+            <version>${interactors.core}</version>
         </dependency>
         <!--Spring-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- Enable Mailing Features -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
         </dependency>
         <!--Jsp Servlets -->
@@ -131,30 +142,20 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.12</version>
+            <version>${tika.version}</version>
         </dependency>
         <dependency>
             <groupId>org.reactome.server.tools</groupId>
             <artifactId>sbml-exporter</artifactId>
-            <version>1.0.0</version>
+            <version>${sbml-exporter}</version>
         </dependency>
-        <dependency>
+
+        <!--dependency>
             <groupId>org.biojava</groupId>
             <artifactId>biojava3-ontology</artifactId>
             <version>3.1.0</version>
-        </dependency>
-        <!-- Reactome files-storage LRU -->
-        <dependency>
-            <groupId>org.reactome.server.lru</groupId>
-            <artifactId>reactome-lru</artifactId>
-            <version>1.4-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+        </dependency-->
+
         <!--Util-->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -184,25 +185,17 @@
             <scope>provided</scope>
         </dependency>
 
-
-        <!--Logging: will transitively add logback core and slf4j-api-->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.1.10</version>
-        </dependency>
-
         <dependency>
             <groupId>org.reactome.server.utils</groupId>
             <artifactId>reactome-utils</artifactId>
-            <version>1.0.2</version>
+            <version>${reactome.utils.version}</version>
         </dependency>
 
         <!-- Kryo serializer -->
         <dependency>
             <groupId>com.esotericsoftware.kryo</groupId>
             <artifactId>kryo</artifactId>
-            <version>2.22</version>
+            <version>${kryo.version}</version>
         </dependency>
 
         <!-- diagram exporter -->
@@ -211,12 +204,6 @@
             <artifactId>diagram-exporter</artifactId>
             <version>${diagram.exporter}</version>
         </dependency>
-
-        <!--<dependency>
-            <groupId>org.biojava</groupId>
-            <artifactId>biojava-core</artifactId>
-            <version>4.2.0</version>
-        </dependency>-->
 
     </dependencies>
 
@@ -234,7 +221,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>${maven.resources.version}</version>
             </plugin>
 
             <plugin>
@@ -308,23 +295,26 @@
     </reporting>
 
     <repositories>
-        <!-- BioJava repo - JP -->
+        <!-- MAVEN central -->
         <repository>
-            <id>biojava-legacy-repo</id>
-            <name>BioJava's Git based legacy maven repo</name>
-            <url>https://github.com/biojava/maven-repo/tree/master/org/biojava/biojava3-ontology/3.1.0</url>
-        </repository>
-        <!--<repository>
-            <id>biojava-repo</id>
-            <name>The BioJava GitHub repo</name>
-            <url>https://github.com/biojava/maven-repo/tree/master/org/biojava/biojava3-ontology/3.1.0/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>-->
+        </repository>
+        <repository>
+            <id>central-bck</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
         <!-- EBI repo -->
         <repository>
             <id>nexus-ebi-repo</id>
